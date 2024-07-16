@@ -6,7 +6,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const helpMessage = `
  Help list : 
- /start - starting teh bot
+ /start - starting the bot
  /help - Find your answers
  /print - prints sth
  /print with parameter - prints your text
@@ -14,15 +14,18 @@ const helpMessage = `
 `;
 
 bot.start((ctx) => {
+  ctx.sendChatAction("typing");
   ctx.reply("Welcome to print-bot");
   ctx.reply(helpMessage);
 });
 
 bot.help((ctx) => {
+  ctx.sendChatAction("typing");
   ctx.reply(helpMessage);
 });
 
 bot.command("print", (ctx) => {
+  ctx.sendChatAction("typing");
   const msg = ctx.message.text;
   const msgList = msg.split(" ");
   let message = "";
@@ -35,30 +38,49 @@ bot.command("print", (ctx) => {
 });
 
 bot.command("cities", (ctx) => {
+  ctx.sendChatAction("typing");
   const citiesList = `
  /Yerevan - Armenia
  /Paris - France
- /madrid - Spain
+ /Madrid - Spain
 `;
   ctx.reply(citiesList);
 });
 
 bot.command(["yerevan", "Yerevan"], (ctx) => {
-  ctx.sendPhoto({
-    source: createReadStream(path.join(__dirname, "photos", "yerevan.jpg")),
-  });
+  ctx.sendChatAction("upload_photo"); // Ensure this action is correctly set
+  ctx.sendPhoto(
+    {
+      source: createReadStream(path.join(__dirname, "photos", "yerevan.jpg")),
+    },
+    {
+      reply_to_message_id: ctx.message.message_id,
+    }
+  );
 });
 
 bot.command(["Paris", "paris"], (ctx) => {
-  ctx.sendPhoto({
-    source: createReadStream(path.join(__dirname, "photos", "paris.jpg")),
-  });
+  ctx.sendChatAction("upload_photo"); // Ensure this action is correctly set
+  ctx.sendPhoto(
+    {
+      source: createReadStream(path.join(__dirname, "photos", "paris.jpg")),
+    },
+    {
+      reply_to_message_id: ctx.message.message_id,
+    }
+  );
 });
 
 bot.command(["Madrid", "madrid"], (ctx) => {
-  ctx.sendPhoto({
-    source: createReadStream(path.join(__dirname, "photos", "madrid.jpg")),
-  });
+  ctx.sendChatAction("upload_photo"); // Ensure this action is correctly set
+  ctx.sendPhoto(
+    {
+      source: createReadStream(path.join(__dirname, "photos", "madrid.jpg")),
+    },
+    {
+      reply_to_message_id: ctx.message.message_id,
+    }
+  );
 });
 
 bot.launch();
